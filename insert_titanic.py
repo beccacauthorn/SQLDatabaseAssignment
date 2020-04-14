@@ -21,7 +21,10 @@ DB_HOST = os.getenv("DB_HOST")
 #
 
 # if your CSV file is in the "data" dir:
-CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "..", "data", "titanic.csv")
+# CSV_FILEPATH = os.path.join(os.path.dirname(__file__), "..", "data", "titanic.csv")
+
+# if your CSV file is in the current directory
+CSV_FILEPATH = os.path.join('.', 'titanic.csv')
 df = pandas.read_csv(CSV_FILEPATH)
 df.index += 1
 print(df.head())
@@ -29,7 +32,6 @@ print(df.head())
 #
 # CONNECT TO PG DATABASE
 #
-
 connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST)
 print(type(connection)) #> <class 'psycopg2.extensions.connection'>
 
@@ -45,9 +47,8 @@ print(type(cursor)) #> <class 'psycopg2.extensions.cursor'>
 #
 # CREATE TABLE
 #
-
 table_creation_query = """
-DROP TABLE passengers;
+DROP TABLE IF EXISTS passengers;
 CREATE TABLE IF NOT EXISTS passengers (
   id SERIAL PRIMARY KEY,
   survived integer,
